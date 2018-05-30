@@ -138,8 +138,6 @@ $(document).ready(function() {
     map.applyPositioning();      
     // PF
     map.updatePathFindingGrid();    
-    // INITIALIERS #2
-    initializeTexture();  
     // CAMERA INIT
     camera.calcRotPos();
   }
@@ -150,12 +148,9 @@ $(document).ready(function() {
   
   models[0].initTexture("itest");
   //models[1].initTexture("itest");
-
   models[3].rotate(-Math.PI/32, Vector3(0,0,1));
 
-  // ACC && MOUSE
-  receiveSteering();
-
+  
   setInterval(function() {
     if (paused == false) {
       //doSteer();

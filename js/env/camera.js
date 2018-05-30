@@ -65,7 +65,7 @@ Camera = function() {
     },
     calcRotPos: function() {
       try {
-        thNew;
+        thNew = 0;
         th = this.angle.y;
         thBis = Math.floor(Math.abs(th) / Math.PI);
 
