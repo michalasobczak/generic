@@ -6,7 +6,7 @@ In the repository root run the following (assuming you've got Ruby 1.9.2+ instal
 ruby -run -ehttpd . -p8000
 ```
 
-Point your browser at http://localhost:8000/html/core.html. You should see a map made of square tiles. The very first tile will have a texture applied. You can navigate camera using keyboard letters AD/WS.
+Point your browser (best viewed in Opera 53) at http://localhost:8000/html/core.html. You should see a map made of square tiles. The very first tile will have a texture applied. You can navigate camera using keyboard letters AD/WS.
 
 Application utilizes custom made 3D rendering environment with faces texturing, occlusion culling, light source and simple collision detection. Source code has been written in early 2013. 
 
