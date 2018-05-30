@@ -65,9 +65,9 @@ Camera = function() {
     },
     calcRotPos: function() {
       try {
-           thNew;
-           th = this.angle.y;
-           thBis = Math.floor(Math.abs(th) / Math.PI);
+        thNew;
+        th = this.angle.y;
+        thBis = Math.floor(Math.abs(th) / Math.PI);
 
         if (th >= 0.0) {
           if (thBis==0 || thBis%2==0) {
@@ -85,8 +85,7 @@ Camera = function() {
             thNew = Math.PI - Math.abs(th % Math.PI);
           }
         }
-                
-                
+
         if (thNew >= 0.0 && thNew <= Math.PI/2) {
              thPXZ = thNew / (Math.PI/2);
           this.position.x = this.initPosition.x + this.r*thPXZ;
