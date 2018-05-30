@@ -118,52 +118,50 @@ Camera = function() {
 
 function doSteer() {
   try {
-       x = accReading.x;
-       y = accReading.y;
-       z = accReading.z;
+    x = accReading.x;
+    y = accReading.y;
+    z = accReading.z;
 
-    if (getBrowserType() == GENERAL) {
-         xPerc = x/maxW;
-         yPerc = y/maxH;
+    xPerc = x/maxW;
+    yPerc = y/maxH;
 
-      if (xPerc >= 0.4 && xPerc <= 0.6) {
-        camera.noTurn();
+    if (xPerc >= 0.4 && xPerc <= 0.6) {
+      camera.noTurn();
+    }
+    else if (xPerc < 0.4) {
+      if (xPerc > 0.3 && xPerc <= 0.4) {
+        camera.rotationStep = camera.rotationStep1;
       }
-      else if (xPerc < 0.4) {
-        if (xPerc > 0.3 && xPerc <= 0.4) {
-          camera.rotationStep = camera.rotationStep1;
-        }
-        else if (xPerc > 0.2 && xPerc <= 0.3) {
-          camera.rotationStep = camera.rotationStep2;
-        }
-        else if (xPerc > 0.0 && xPerc <= 0.2) {
-          camera.rotationStep = camera.rotationStep3;
-        }
-
-        camera.turnLeft();
-        return;
+      else if (xPerc > 0.2 && xPerc <= 0.3) {
+        camera.rotationStep = camera.rotationStep2;
       }
-      else if (x > 0.6) {
-        if (xPerc > 0.6 && xPerc <= 0.7) {
-          camera.rotationStep = camera.rotationStep1;
-        }
-        else if (xPerc > 0.7 && xPerc <= 0.8) {
-          camera.rotationStep = camera.rotationStep2;
-        }
-        else if (xPerc > 0.8 && xPerc <= 1.0) {
-          camera.rotationStep = camera.rotationStep3;
-        }
-
-        camera.turnRight();
-        return;
+      else if (xPerc > 0.0 && xPerc <= 0.2) {
+        camera.rotationStep = camera.rotationStep3;
       }
 
-      if (yPerc < 0.4) {
-        camera.moveForward();
+      camera.turnLeft();
+      return;
+    }
+    else if (x > 0.6) {
+      if (xPerc > 0.6 && xPerc <= 0.7) {
+        camera.rotationStep = camera.rotationStep1;
       }
-      else if (yPerc > 0.6) {
-        camera.moveBackward();
+      else if (xPerc > 0.7 && xPerc <= 0.8) {
+        camera.rotationStep = camera.rotationStep2;
       }
+      else if (xPerc > 0.8 && xPerc <= 1.0) {
+        camera.rotationStep = camera.rotationStep3;
+      }
+
+      camera.turnRight();
+      return;
+    }
+
+    if (yPerc < 0.4) {
+      camera.moveForward();
+    }
+    else if (yPerc > 0.6) {
+      camera.moveBackward();
     }
   }
   catch (err) {
