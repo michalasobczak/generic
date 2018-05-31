@@ -10,8 +10,10 @@
     <canvas id="theCanvas" style="border:0; padding:0; margin:0;"></canvas>  
     <img src="../models/textures/test.bmp" id="itest" style="display:none;" />
     <script type="text/javascript">
+      // TODO: verify browser support
       GENERAL = 3;
       //
+      // TODO: verify if still needed
       function require(s) {
         ;
       }
@@ -25,6 +27,15 @@
         }
       } //getBrowserType
       //
+      function pause(millis) {
+        var date = new Date();
+        var curDate = null;
+        do { curDate = new Date(); }
+        while(curDate-date < millis);
+      } // pause
+      //
+      // FILES TO LOAD
+      // TODO: verify if jQuery needs to be loaded twice
       var scripts = [
       '/js/libs/jquery-1.9.1.min.js',
       '/js/libs/sylvester.src.js',
@@ -49,12 +60,16 @@
       '/js/env/collisionDetector.js',
       '/js/core.js'
       ];
+      // FILE LOADING
       body = document.getElementsByTagName("body")[0];
       for (var index=0; index<=scripts.length-1; index++) {
         var script = document.createElement('script');
         script.type = 'text/javascript';
         script.src = '..' + scripts[index] + "?v=" + Math.random();
         body.appendChild(script);
+        // LET BROWSER TO LOAD SCRIPT INTO RUNTIME
+        // WAIT A WHILE
+        pause(100);
       } // for
     </script>
   </body>

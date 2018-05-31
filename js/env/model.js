@@ -1,9 +1,9 @@
 var Model = function(_filename, _mr, _type) {  
   occlusionCulling.sortArray.push({"modelID":modelsCounter, "distance":0});
-
+  //
   modelsCounter+=1;
   //profiler.log("\Model - creating " + _filename + "/" + _mr);  
-
+  //
   return {
     modelRef: _mr,
     // ////////
@@ -16,9 +16,11 @@ var Model = function(_filename, _mr, _type) {
     center3DUpdateInterval: 1,
     center3D: Vector3(0,0,0),
     center2D: Vector2(0,0),
+    //
     getPosition: function() {
       return this.center3D;
-    },
+    }, // getPosition
+    //
     name: _filename,
     type: _type,
     sprite: undefined,
@@ -33,9 +35,10 @@ var Model = function(_filename, _mr, _type) {
     previousDirection: Vector3(0,0,0),
     currentDirection: Vector3(0,0,0),
     th: 0,    
-      directionFromCamera: Vector3(0,0,0),
-      dot: 0,
+    directionFromCamera: Vector3(0,0,0),
+    dot: 0,
     insideScreen: true,
+    //
     // //////////////////
     // TEXTURE
     // //////////////////
@@ -43,93 +46,105 @@ var Model = function(_filename, _mr, _type) {
       this.isTextured = true;
       for (var index=0; index<=this.faces.length-1; index++) {
         this.faces[index].initTexture(imgID);
-      }
-    },
+      } // for
+    }, // initTexture
+    //
     // ///////////////
     // COLOR SET
     // ///////////////
     setColor: function(color) {
       for (var index=0; index<=this.faces.length-1; index++) {
         this.faces[index].color = color;
-      }
-    },
+      } // for
+    }, // setColor
+    //
     // ///////////////
     // TYPE CHECK
     // ///////////////
     isObj: function() {
       if (this.type == "obj") {
         return true;
-      }
+      } // if
       else {
         return false;
-      }
-    },
+      } // else
+    }, // isObj
     isSpr: function() {
       if (this.type == "spr") {
         return true;
-      }
+      } // if
       else {
         return false;
-      }
-    },
+      } // else
+    }, // isSpr
+    //
     // ///////////////
     // SIZE CALC
     // ///////////////
     size: 0,
+    //
     setSize: function() {
       var currentRadius = 0;
+      //
       for (var index=0; index<=this.vertices.length-1; index++) {
         // OBJ
         if (this.isObj()) {
           var currentVertex = this.vertices[index];
           var distanceFromCenter = (getDistance3(this.getPosition(), currentVertex)) | 0;
+          //
           while (distanceFromCenter >= currentRadius) {
             currentRadius++;
-          }
-        }
+          } // while
+        } // if
         // SPR
         else {
-        }
-      }
-
+        } // else
+      } // for
+      //
       this.size = currentRadius;
     },
+    //
     // ///////////////
     // COLLISIONS
     // ///////////////
     collidable: undefined,
+    //
     isCollidable: function() {
       if (this.isObj() ||  (!this.isObj() && this.sprite.dimensions == 3)) {
         if (this.collidable != undefined) {
           return this.collidable;
-        }
+        } // if
         else {
           return false;
-        }
-      }
+        } // else
+      } // if
       else {
         return false;
-      }
-    },
+      } // else
+    }, // isCollidable
+    //
     destroyable: false,
+    //
     // ///////////////
     // FETCHING
     // ///////////////
     getData: function() {
       if (this.isObj())
         this.askForData();
-    },
+    }, // getData
     askForData: function() {
       if (this.isObj()) {        
         var self = this;
+        //
         $.ajax({
           url: "/models/" + self.name + ".obj",
           async: false
         }).done(function(data) {
           parseData(self.modelRef, data);
-        });
-      }
-    },    
+        }); // done
+      } // if
+    }, // askForData  
+     //    
     // ////////////
     // POSITIONING
     // ////////////
@@ -137,18 +152,20 @@ var Model = function(_filename, _mr, _type) {
       if (this.isObj()) {
         var sum = Vector3(0,0,0);
         var vlen = this.vertices.length;
+        //
         for (var index=0; index<=this.vertices.length-1; index++) {
           sum.inc(this.vertices[index]);
-        }
+        } // for
         this.center3D = Vector3(sum.x/vlen, sum.y/vlen, sum.z/vlen);
-      }
+      } // if
       else {        
         this.center3D = this.sprite.position;
-      }
-    },
+      } // else
+    }, // updateCenter3D
     updateInsideScreen: function() {
       // VIEWING FRUSTUM FILTERING
       this.center2D = this.center3D.get2D();
+      //
       if (this.isObj()) {
         // IF BOTH X OR Y INSIDE
         if (
@@ -158,54 +175,56 @@ var Model = function(_filename, _mr, _type) {
            ) 
         {
           this.insideScreen = true;
-        }
+        } // if
         // IF EITHER X OR Y IS OUT THEN MODEL IS OUTSIDE
         else {
           this.insideScreen = false;
-        }
-      }
+        } //else
+      } // if
       else {        
         if (this.sprite.dimensions == 2) {
           this.insideScreen = true;
-        }
-      }
-    },
+        } // if
+      } // else
+    }, // updateInsideScreen
     translate: function(P) {
       if (this.isObj()) {
         // VERTICES
         for (var index=0; index<=this.vertices.length-1; index++) {
           if (P != undefined) {
             this.vertices[index].inc(P);
-          }
-        }
-
+          } // if
+        } // for
+        //
         // NORMALS
         for (var index=0; index<=this.faces.length-1; index++) {
           if (P != undefined) {          
             this.faces[index].currentNormal.inc(P);
-          }
-        }
-
+          } // if
+        } // for
+        //
         // UPDATE CAMERA IF CAMERA CHASE SELECTED
         if (this.cameraChase == true) {
           camera.translate(Vector3(P.x, P.y, P.z));
-        }
-      }
-    },
+        } // if
+      } // if
+    }, // translate
     rotate: function(th, axis) {
       if (this.isObj()) {
         this.updateCenter3D();
-    
+        //
         // VERTICES
         for (var index=0; index<=this.vertices.length-1; index++) {
           this.vertices[index] = this.vertices[index].rotate(th, this.center3D, axis);
-        }
+        } // for
+        //
         // NORMALS
         for (var index=0; index<=this.faces.length-1; index++) {
           this.faces[index].currentNormal = this.faces[index].currentNormal.rotate(th, this.center3D, axis);
-        }
-      }  
-    },
+        } // for
+      } // if  
+    }, // rotate
+    //
     // //////////
     // DRAWING
     // //////////    
@@ -213,81 +232,87 @@ var Model = function(_filename, _mr, _type) {
       if (this.isObj()) {
         for (var index = 0; index <= this.vertices.length-1; index++) {
           this.vertices[index].draw(1);
-        }
-      }
-    },
+        } // for
+      } // if
+    }, // drawVertices
     drawFaces: function() {
       if (this.isObj()) {
         for (var index = 0; index <= this.faces.length-1; index++) {
           this.faces[index].update();
-        }
-      }
-    },
+        } // for
+      } // if
+    }, // drawFaces
     drawObject: function() {
       if (this.active) {
           if (this.isObj()) {
             this.drawFaces();
-          }
+          } // if
           else {
             this.sprite.updateScale();
             this.sprite.draw();
-          }
-      }
-    },    
+          } // else
+      } // if
+    }, // drawObject
+    //
     // ////////////
     // UPDATE
     // ////////////
     updateDistanceAndDirectionFromCamera: function() {
       if (this.isObj()) {
         this.distanceFromCamera = getDistance3(camera.getOrigin(), this.center3D);  
-      }
+      } // if
       else {
         if (this.sprite.dimensions == 3) {
           this.distanceFromCamera = getDistance3(camera.getOrigin(), this.sprite.position);
-        }
+        } // if
         else if (this.sprite.dimensions == 2) {
           this.distanceFromCamera = 0;
-        }
-      }
-    },
+        } // else
+      } // else
+    }, // updateDistanceAndDirectionFromCamera
     updateDirection: function() {
       this.currentDirection = getDirection(this.previousDirection, this.currentDirection);
       this.previousDirection = this.currentDirection;
-    },
+    }, // updateDirection
     update: function() {      
       //this.updateCenter3D();
       //this.updateDistanceAndDirectionFromCamera();
-    }    
-  }
-}
-
-
+    } // update 
+  } // return
+} // Model
+//
+//
 // //////////////////////////////////////////////////////
 // DATA FROM THE HOST
+// TODO: verify if still needed
 // //////////////////////////////////////////////////////
 function receiveData(modelID, _data_) {
   try {
     var decoded = Base64.decode(_data_);  
     parseData(modelID, decoded);
-  }
+  } // try
   catch (err) {
     profiler.log("RECEIVE DATA ERR => " + err.message);
-  }
-}
-
-
+  } // catch
+} // receiveData
+//
+//
+//
+// //////////////////////////////////////////////////////
+// TODO: describe it
+// //////////////////////////////////////////////////////
 function parseData(modelID, _data_) {  
   var lines = _data_.split("\n");
-
+  //
   var resultObject = {};
   var vertices = [];
   var normals = [];
   var faces = [];
   var textureVertices = [];
-  
+  //
   for(var lindex=0; lindex<=lines.length-1; lindex++) {
     //profiler.log("LINE: " + lines[lindex]);
-
+    //
     var splitedLine = lines[lindex].split(' ');
     // VERTICES
     if (splitedLine[0] == "v") {      
@@ -295,14 +320,14 @@ function parseData(modelID, _data_) {
       var y = parseFloat(splitedLine[2]);
       var z = parseFloat(splitedLine[3]);
       x = (x * 100);
-        x = Math.abs(x + 200);
+      x = Math.abs(x + 200);
       y = (y * 100);
-        y = Math.abs(y + 200);
+      y = Math.abs(y + 200);
       z = (z * 100);
       z = Math.abs(z + 500);
       var vertex = Vector3(x,y,z);      
       vertices.push(vertex);
-    }
+    } // if
     // NORMALS
     else if (splitedLine[0] == "vn") {
       var x = parseFloat(splitedLine[1]);
@@ -310,25 +335,28 @@ function parseData(modelID, _data_) {
       var z = parseFloat(splitedLine[3]);
       var normal = Vector3(x,y,z);
       normals.push(normal);
-    }
+    } // else
     // TEXTURE VERTICES
     else if (splitedLine[0] == "vt") {
       var x = parseFloat(splitedLine[1]);
       var y = parseFloat(splitedLine[2]);
       var textureVertex = Vector2(x,y);
       textureVertices.push(textureVertex);
-    }
-  }  
+    } // else
+  } // for lindex 
+  //
   models[modelID].vertices = vertices;
   models[modelID].normals = normals;
   models[modelID].textureVertices = textureVertices;
-
+  //
   // FACES
   // INCLUDING TEXTURE VERTICES AND MATERIALS
   var facesCounter = 0;
   var currentTextureMaterial = "blank";
+  //
   for(var findex=0; findex<=lines.length-1; findex++) {
     var splitedLine = lines[findex].split(' ');
+    //
     if (splitedLine[0] == "f") {
       try {
         // VERTICES REFS
@@ -355,38 +383,39 @@ function parseData(modelID, _data_) {
         // APPLY DATA
         var modelIDInt = parseInt(modelID);
         var face = Face(p1Ref,p2Ref,p3Ref,modelIDInt);    
-          //face.initTexture("itest");
+        //face.initTexture("itest");
         face.id = facesCounter;
-          // TEXTURE VERTICES 2D
-          face.t1Ref = textureVertices[t1Ref];
-          face.t2Ref = textureVertices[t2Ref];
-          face.t3Ref = textureVertices[t3Ref];
-          face.textureMaterial = currentTextureMaterial;
+        // TEXTURE VERTICES 2D
+        face.t1Ref = textureVertices[t1Ref];
+        face.t2Ref = textureVertices[t2Ref];
+        face.t3Ref = textureVertices[t3Ref];
+        face.textureMaterial = currentTextureMaterial;
         // IMPORTANT!: Need to set normals per each vertex of the face, for now one normal is enough
         face.initialNormal = normals[n1Ref];
         face.applyNormal();
         faces.push(face);
         facesCounter += 1;
-      }
+      } // try
       catch (err) {
         profiler.log("ERROR parseData.faces => " + err.message);
-      }
-    }
+      } // catch
+    } // if
     // SET CURRENT TEXTURE MATERIAL
     else if (splitedLine[0] == "usemtl") {
       currentTextureMaterial = splitedLine[1];
-    }    
-  }
+    } // else   
+  } // for findex
+  //
   models[modelID].faces = faces;
-  
+  //
   //profiler.log("<=== PARSED MODEL: " + modelID);
   //profiler.log("\tVERTICES:" + vertices.length);
   //profiler.log("\tNORMALS:" + normals.length);
   //profiler.log("\tFACES:" + faces.length);  
-
+  //
   models[modelID].loaded = true;
   models[modelID].updateCenter3D();
   models[modelID].setSize();
-
+  //
   return;  
-}
+} // parseData

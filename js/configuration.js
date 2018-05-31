@@ -1,4 +1,6 @@
-//
+// //////////////
+// MAIN
+// //////////////
 exports = {}
 zoom = 1;
 cacheRectsTimes = [];
