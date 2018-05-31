@@ -1,5 +1,7 @@
 # generic
 
+Application utilizes custom made 3D rendering environment with faces texturing, occlusion culling, light source and simple collision detection. Source code has been written in early 2013.
+
 In the repository root run the following (assuming you've got Ruby 1.9.2+ installed):
 
 ```ruby
@@ -7,8 +9,6 @@ ruby -run -ehttpd . -p8000
 ```
 
 Point your browser (best viewed in Opera 53 at the time of writing it in May 2018) at http://localhost:8000/html/core.html. You should see a map made of square tiles. The very first tile will have a texture applied. You can navigate camera using keyboard letters ad/ws.
-
-Application utilizes custom made 3D rendering environment with faces texturing, occlusion culling, light source and simple collision detection. Source code has been written in early 2013. 
 
 It is worth to look at js/env/3d.js file which contains rendering algorithms such as:
 
