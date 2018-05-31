@@ -13,7 +13,7 @@ function run() {
     clearCanvas();
     // OCCLUSION CULLING
     occlusionCulling.update();
-	  //
+    //
     for (var mindex=0; mindex<=occlusionCulling.sortArray.length-1; mindex++) {    
       midSorted = occlusionCulling.sortArray[mindex].modelID;
       model = models[midSorted];              
@@ -59,7 +59,7 @@ $(document).ready(function() {
   // PC KEYBOARD
   if (getBrowserType() == GENERAL) {
     camera.updateDirection();
-	  //
+    //
     $("#theCanvas").mousedown(function(e) {
       if (e.which == 1) {
         ;
