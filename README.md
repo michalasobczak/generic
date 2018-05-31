@@ -96,4 +96,4 @@ Camera rotation mechanism is as follows (in js/env/camera.js):
     } // calcRotPos
 ```
 
-Originally the code targeted Android and Windows Phone browser components. Nowadays it will be only tested againts the most recent Opera browser release for sake of convenience and simplicity. If one find the code useful feel free to copy it.
+Originally the code targeted Android and Windows Phone browser components. Nowadays it will be only tested against the most recent Opera browser release for sake of convenience and simplicity. If one find the code useful feel free to copy it.
