@@ -42,3 +42,56 @@ getM = function(th) {
   } 
 }
 ```
+
+Camera rotation mechanism is as follows:
+
+```javascript
+   calcRotPos: function() {
+      try {
+        thNew = 0;
+        th = this.angle.y;
+        thBis = Math.floor(Math.abs(th) / Math.PI);
+        //
+        if (th >= 0.0) {
+          if (thBis==0 || thBis%2==0) {
+            thNew = Math.abs(th % Math.PI);
+          } // if
+          else if (thBis==1 || thBis%2!=0) {
+            thNew = -1 * (Math.PI - Math.abs(th % Math.PI));
+          } // else
+        } // if
+        else if (th < 0.0) {
+          if (thBis==0 || thBis%2==0) {
+            thNew = -1 * Math.abs(th % Math.PI);
+          } // if
+          else if (thBis==1 || thBis%2!=0) {
+            thNew = Math.PI - Math.abs(th % Math.PI);
+          } // else
+        } // else
+        //
+        if (thNew >= 0.0 && thNew <= Math.PI/2) {
+          thPXZ = thNew / (Math.PI/2);
+          this.position.x = this.initPosition.x + this.r*thPXZ;
+          this.position.z = this.initPosition.z + this.r*thPXZ;
+        } // if
+        else if (thNew > Math.PI/2 && thNew <= Math.PI) {
+          thPXZ = (Math.PI-thNew) / (Math.PI/2);
+          this.position.x = this.initPosition.x + this.r - (this.r*(1-thPXZ));
+          this.position.z = this.initPosition.z + this.r + (this.r*(1-thPXZ));
+        } // else
+        else if (thNew < 0.0 && thNew >= -Math.PI/2) {
+          thPXZ = Math.abs(thNew) / (Math.PI/2);
+          this.position.x = this.initPosition.x - this.r*thPXZ;
+          this.position.z = this.initPosition.z + this.r*thPXZ;
+        } // else
+        else if (thNew < -Math.PI/2 && thNew >= -Math.PI) {
+          thPXZ = (Math.PI-Math.abs(thNew)) / (Math.PI/2);
+          this.position.x = this.initPosition.x - this.r + (this.r*(1-thPXZ));
+          this.position.z = this.initPosition.z + this.r + (this.r*(1-thPXZ));
+        }  // else
+      } // try
+      catch (err) {
+        profiler.log("CALC POSROT ERR => " + err.message);
+      } // catch
+    } // calcRotPos
+```
