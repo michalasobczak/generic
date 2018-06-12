@@ -2,7 +2,7 @@ Camera = function() {
   profiler.log("Camera - new");
   //
   return {
-    refreshRate: 25,
+    refreshRate: 1,
     distanceToDraw: 1500,
     rotationStep: 0.05,
     rotationStep1: 0.01, 

@@ -31,6 +31,12 @@ function run() {
 } // run
 
 
+function vertices_counter_funtion() {
+  console.log(vertices_counter);
+  vertices_counter = 0;
+} //timer
+
+
 // //////////////
 // //////////////
 // MAIN
@@ -154,5 +160,6 @@ $(document).ready(function() {
   // ////
   profiler.log("About to set RUNNER...");    
   //
+  setInterval(vertices_counter_funtion, 1000);
   setInterval(run, camera.refreshRate);
 }); // document ready

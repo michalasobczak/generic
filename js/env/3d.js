@@ -110,13 +110,15 @@ getM = function(th) {
 }
 
 cacheMain = {};
+vertices_counter=0;
 transform3Into2_NEW = function(x,y,z, cx,cy,cz, th) {
-  var lookup = ""+x+y+z+cx+cy+cz+th.y;
-  var existingEntry = cacheMain[lookup];
-  if (existingEntry !== undefined) {
-    return existingEntry;
-  }
-  else {
+  //var lookup = ""+x+y+z+cx+cy+cz+th.y;
+  //var existingEntry = cacheMain[lookup];
+  //if (existingEntry !== undefined) {
+  //if (0) {
+  //  return existingEntry;
+  //}
+  //else {
     var d_1x2x3 = getM(th);
 
     var d4 = [
@@ -133,7 +135,8 @@ transform3Into2_NEW = function(x,y,z, cx,cy,cz, th) {
     var d4subd5 = matS(d4,d5);
     var d = matMV(d_1x2x3, d4subd5);
     var b = getB(d[0],d[1],d[2]);
-    cacheMain[lookup] = b;
+    //cacheMain[lookup] = b;
+    vertices_counter++;
     return b;
-  }
+  //}
 }
