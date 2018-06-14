@@ -2,6 +2,8 @@
 
 Application utilizes custom made 3D rendering environment with faces texturing, occlusion culling, light source and simple collision detection. Source code has been written in early 2013.
 
+## Runtime
+
 In the repository root run the following (assuming you've got Ruby 1.9.2+ installed):
 
 ```ruby
@@ -9,6 +11,8 @@ ruby -run -ehttpd . -p8000
 ```
 
 Point your browser (best viewed in Opera 53 at the time of writing it in May 2018) at http://localhost:8000/html/core.html. You should see a map made of square tiles. The very first tile will have a texture applied. You can navigate camera using keyboard letters ad/ws.
+
+## Environment
 
 It is worth to look at js/env/3d.js file which contains rendering algorithms such as:
 
@@ -96,4 +100,9 @@ Camera rotation mechanism is as follows (in js/env/camera.js):
     } // calcRotPos
 ```
 
+## Origins
+
 Originally the code targeted Android and Windows Phone browser components. Nowadays it will be only tested against the most recent Opera browser release for sake of convenience and simplicity. If one find the code useful feel free to copy it.
+
+## Performance
+Having 10x10 map of square tiles including one with texturing there is 5000 - 7000 vertices per second. Navigating camera to viewport not having textured tile on the screen will give over 10 000 vertices per second. Reference hardware HP Pavilion x2 10-n010nw with Intel Atom Z3736F, Windows 8.1, Opera 53.
