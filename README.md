@@ -104,4 +104,4 @@ Camera rotation mechanism is as follows (in js/env/camera.js):
 Having 10x10 map of square tiles including one with texturing there is 5000 - 7000 vertices per second. Navigating camera to viewport not having textured tile on the screen will give over 10 000 vertices per second. Reference hardware HP Pavilion x2 10-n010nw with Intel Atom Z3736F, Windows 8.1, Opera 53.
 
 ## Origins
-Originally the code targeted Android and Windows Phone browser components. Nowadays it will be only tested against the most recent Opera browser release for sake of convenience and simplicity. If one find the code useful feel free to copy it.
+Code targeted Android and Windows Phone.
