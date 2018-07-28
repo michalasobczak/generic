@@ -12,6 +12,8 @@ ruby -run -ehttpd . -p8000
 
 Point your browser (best viewed in Opera 53 at the time of writing it in May 2018) at http://localhost:8000/html/core.html. You should see a map made of square tiles. The very first tile will have a texture applied. You can navigate camera using keyboard letters ad/ws.
 
+![Screenshot](img/01_startup.png)
+
 ## Environment
 
 It is worth to look at js/env/3d.js file which contains rendering algorithms such as:
